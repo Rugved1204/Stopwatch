@@ -7,13 +7,16 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Quicksand&display=swap');
 
+        /* Apply background image to the whole body */
         body{
             margin: 0;
             padding: 0;
-            background-color: rgb(21, 39, 52);
+            background-image: url("images/background.jpg");
+            background-size: cover;  /* Make sure it covers the whole viewport */
+            background-position: center;  /* Center the image */
             font-family: 'Poppins', sans-serif;
             font-family: 'Quicksand', sans-serif;
-            height: 100vh;
+            height: 100vh;  /* Full height */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,12 +26,10 @@
         .stopwatch{
             width: 90%;
             max-width: 600px;
-            background-image:linear-gradient(rgba(255, 255, 255, 0.5),rgba(255,255,255,0.5)),url("images/background.jpg");
-            background-size: cover;
-            background-position: center;
+            background: rgba(255, 255, 255, 0.6); /* Semi-transparent background for readability */
             text-align: center;
             padding: 50px 0;
-            color:#fff;
+            color: #333;
             box-shadow: 0 10px 10px rgba(255, 255, 255, 0.3);
             border-radius: 15px;
         }
