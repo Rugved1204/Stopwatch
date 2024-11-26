@@ -35,7 +35,7 @@
         }
 
         .stopwatch h1{
-            font-size: 80px;
+            font-size: 60px;
             letter-spacing: 0.1em;
             margin-top: 20px;
             text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -48,96 +48,106 @@
             margin-bottom: 10px;
         }
 
-        .buttons img{
-            width: 40px;
-            margin: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .buttons img:nth-child(2){
+        .buttons button{
             width: 80px;
-            margin: 0 20px;
-            cursor: pointer;
-        }
-
-        .buttons img:hover{
-            transform: scale(1.1);
-        }
-
-        #toggleBtn{
-            background-color: #28a745;
-            border: none;
-            padding: 10px 20px;
+            margin: 0 15px;
+            padding: 10px 15px;
             font-size: 18px;
-            color: white;
             cursor: pointer;
             border-radius: 5px;
             transition: 0.3s ease;
         }
 
-        #toggleBtn:hover{
+        #startBtn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #startBtn:hover {
             background-color: #218838;
         }
 
-        #resetBtn{
+        #resetBtn {
             background-color: #dc3545;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
             color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s ease;
         }
 
-        #resetBtn:hover{
+        #resetBtn:hover {
             background-color: #c82333;
+        }
+
+        #lapBtn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #lapBtn:hover {
+            background-color: #0056b3;
+        }
+
+        .lapTimes {
+            margin-top: 20px;
+            color: white;
+            font-size: 16px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .lapTimes li {
+            padding: 5px 0;
         }
 
     </style>
 </head>
 <body>
     <div class="stopwatch">
-        <h1 id="displaytime">00:00:00</h1>
+        <h1 id="displaytime">00:00:00.000</h1>
         <div class="buttons">
-            <button id="toggleBtn" onclick="toggleStopwatch()">Start</button>
+            <button id="startBtn" onclick="toggleStopwatch()">Start</button>
             <button id="resetBtn" onclick="watchreset()">Reset</button>
+            <button id="lapBtn" onclick="recordLap()">Lap</button>
         </div>
+        <ul class="lapTimes" id="lapTimes"></ul>
     </div>
 
     <script>
-        let [seconds, minutes, hours] = [0, 0, 0];
+        let [seconds, minutes, hours, milliseconds] = [0, 0, 0, 0];
         let displaytime = document.getElementById("displaytime");
         let timer = null;
         let isRunning = false;
+        let lapTimes = [];
 
         function stopwatch() {
-            seconds++;
-            if (seconds == 60) {
-                seconds = 0;
-                minutes++;
-                if (minutes == 60) {
-                    minutes = 0;
-                    hours++;
+            milliseconds++;
+            if (milliseconds == 100) {
+                milliseconds = 0;
+                seconds++;
+                if (seconds == 60) {
+                    seconds = 0;
+                    minutes++;
+                    if (minutes == 60) {
+                        minutes = 0;
+                        hours++;
+                    }
                 }
             }
 
             let h = hours < 10 ? "0" + hours : hours;
             let m = minutes < 10 ? "0" + minutes : minutes;
             let s = seconds < 10 ? "0" + seconds : seconds;
-            displaytime.innerHTML = h + ":" + m + ":" + s;
+            let ms = milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds;
+            displaytime.innerHTML = h + ":" + m + ":" + s + "." + ms;
         }
 
         function toggleStopwatch() {
             if (isRunning) {
                 clearInterval(timer);
                 isRunning = false;
-                document.getElementById("toggleBtn").innerHTML = "Start";
+                document.getElementById("startBtn").innerHTML = "Start";
             } else {
-                timer = setInterval(stopwatch, 1000);
+                timer = setInterval(stopwatch, 10);  // Updated interval for milliseconds
                 isRunning = true;
-                document.getElementById("toggleBtn").innerHTML = "Stop";
+                document.getElementById("startBtn").innerHTML = "Stop";
             }
         }
 
@@ -145,10 +155,23 @@
             if (confirm("Are you sure you want to reset the stopwatch?")) {
                 clearInterval(timer);
                 timer = null;
-                [seconds, minutes, hours] = [0, 0, 0];
-                displaytime.innerHTML = "00:00:00";
+                [seconds, minutes, hours, milliseconds] = [0, 0, 0, 0];
+                displaytime.innerHTML = "00:00:00.000";
+                lapTimes = [];
+                document.getElementById("lapTimes").innerHTML = "";
                 isRunning = false;
-                document.getElementById("toggleBtn").innerHTML = "Start";
+                document.getElementById("startBtn").innerHTML = "Start";
+            }
+        }
+
+        function recordLap() {
+            if (isRunning) {
+                let lapTime = displaytime.innerHTML;
+                lapTimes.push(lapTime);
+                let lapList = document.getElementById("lapTimes");
+                let li = document.createElement("li");
+                li.textContent = "Lap " + lapTimes.length + ": " + lapTime;
+                lapList.appendChild(li);
             }
         }
     </script>
