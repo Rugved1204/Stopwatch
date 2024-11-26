@@ -7,26 +7,25 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Quicksand&display=swap');
 
-        /* Apply background image to the whole body */
-        body{
+        body {
             margin: 0;
             padding: 0;
             background-image: url("images/background.jpg");
-            background-size: cover;  /* Make sure it covers the whole viewport */
-            background-position: center;  /* Center the image */
+            background-size: cover;
+            background-position: center;
             font-family: 'Poppins', sans-serif;
             font-family: 'Quicksand', sans-serif;
-            height: 100vh;  /* Full height */
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        .stopwatch{
+        .stopwatch {
             width: 90%;
             max-width: 600px;
-            background: rgba(255, 255, 255, 0.6); /* Semi-transparent background for readability */
+            background: rgba(255, 255, 255, 0.7);
             text-align: center;
             padding: 50px 0;
             color: #333;
@@ -34,22 +33,23 @@
             border-radius: 15px;
         }
 
-        .stopwatch h1{
+        .stopwatch h1 {
             font-size: 60px;
             letter-spacing: 0.1em;
             margin-top: 20px;
-            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 25px rgba(0, 0, 0, 0.7); /* Stronger shadow for title */
+            color: #222; /* Darker color for the title */
         }
 
-        .buttons{ 
+        .buttons {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;
         }
 
-        .buttons button{
-            width: 80px;
+        .buttons button {
+            width: 100px;
             margin: 0 15px;
             padding: 10px 15px;
             font-size: 18px;
@@ -87,7 +87,7 @@
 
         .lapTimes {
             margin-top: 20px;
-            color: white;
+            color: black; /* Set lap times to black for visibility */
             font-size: 16px;
             list-style-type: none;
             padding: 0;
@@ -97,17 +97,41 @@
             padding: 5px 0;
         }
 
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            color: #fff;
+            text-align: center;
+            width: 100%;
+            font-size: 16px;
+            z-index: 10; /* Ensure footer is above other elements */
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
     <div class="stopwatch">
-        <h1 id="displaytime">00:00:00.000</h1>
+        <h1>MySTOPWATCH</h1>
+        <h2 id="displaytime">00:00:00.000</h2>
         <div class="buttons">
             <button id="startBtn" onclick="toggleStopwatch()">Start</button>
             <button id="resetBtn" onclick="watchreset()">Reset</button>
             <button id="lapBtn" onclick="recordLap()">Lap</button>
         </div>
         <ul class="lapTimes" id="lapTimes"></ul>
+    </div>
+
+    <div class="footer">
+        <p>Made with <span style="color: red;">&#10084;</span> by <a href="https://www.linkedin.com/in/rugved1204/" target="_blank">Rugved</a></p>
     </div>
 
     <script>
